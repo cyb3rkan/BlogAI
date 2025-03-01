@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+        <div class="col-md-12 ">
+            <img src="{% static course.get_image_path %}" class="card-img w-100 mx-auto" alt="Python Image" style="object-fit: cover; object-position: center; height: 300px;">
+        </div>
+        </div class="col-md-12">
+        <div>
+            <p>Python Programlama</p>
+        </div>
+</div>
+<div class="card">
+    <div class="col-md-12 ">
+        <img src="{% static course.get_image_path %}" class="card-img w-100 mx-auto" alt="Java Image" style="object-fit: cover; object-position: center; height: 300px;">
+    </div>
+    </div class="col-md-12">
+    <div>
+        <p>Java Programlama</p>
+    </div>
+</div>
+<div class="card">
+    <div class="col-md-12 ">
+        <img src="{% static course.get_image_path %}" class="card-img w-100 mx-auto" alt="C# Image" style="object-fit: cover; object-position: center; height: 300px;">
+    </div>
+    </div class="col-md-12">
+    <div>
+        <p>C# Programlama</p>
+    </div>
+</div>
+<div class="card">
+    <div class="col-md-12 ">
+        <img src="{% static course.get_image_path %}" class="card-img w-100 mx-auto" alt="JavaScript Image" style="object-fit: cover; object-position: center; height: 300px;">
+    </div>
+    </div class="col-md-12">
+    <div>
+        <p>JavaScript Programlama</p>
+    </div>
+</div>
+<div class="card">
+    <div class="col-md-12 ">
+        <img src="{% static course.get_image_path %}" class="card-img w-100 mx-auto" alt="NLP Image" style="object-fit: cover; object-position: center; height: 300px;">
+    </div>
+    </div class="col-md-12">
+    <div>
+        <p>Doğal Dil İşleme</p>
+    </div>
+</div>
+<div class="card">
+    <div class="col-md-12 ">
+        <img src="{% static course.get_image_path %}" class="card-img w-100 mx-auto" alt="MachineLearning Image" style="object-fit: cover; object-position: center; height: 300px;">
+    </div>
+    </div class="col-md-12">
+    <div>
+        <p>Makine Öğrenmesi</p>
+    </div>
+</div>
+{% endblock %}
