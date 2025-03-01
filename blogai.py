@@ -5,13 +5,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 from google import genai
+from dotenv import load_dotenv
+import os
+
+# .env dosyasını yükle
+load_dotenv()
+
+# Ortam değişkenlerini oku
+YOUR_API_KEY = os.getenv("YOUR_API_KEY")
 
 class DesignWebsite():
     def __init__(self):
         self.options = Options()
         self.options.add_argument("--headless")
         self.options.add_argument("--disable-dev-shm-usage")
-        self.client = genai.Client(api_key="AIzaSyAxYiO8TFV2b4nrS_k3xpAMSgIjMs4caLM")  
+        self.client = genai.Client(api_key=YOUR_API_KEY)  
 
     def create_prompts(self, subject):
         contents = f"Bana {subject} konusunu alt başlıklara ayır. Basit ve yalın başlıklar olsun emoji özel karakter kullanma . Herhangi bir açıklama istemiyorum. Yalnızca alt alta başlıklar olsun. Başka hiçibir şey olmasın. Boş satır olmasın. Boş satır sorun yaratıyor. Bir kurs programı edasıyla yaz. giriş fln gibi kısımlar olmasın daha somut ve net başlıklar olsun."
