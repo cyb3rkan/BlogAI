@@ -10,7 +10,6 @@ import os
 
 # .env dosyasını yükle
 load_dotenv()
-
 # Ortam değişkenlerini oku
 YOUR_API_KEY = os.getenv("YOUR_API_KEY")
 
