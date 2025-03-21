@@ -1,0 +1,117 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex gap-4">
+        <!-- Sidebar -->
+        <div class="bg-light rounded-3 p-4" style="width: 280px;">
+            <h4 class="mb-4 text-primary">{{language}} Dersleri</h4>
+            <div class="nav nav-pills flex-column">
+                {% if pages %}
+                    {% for page in pages %}
+                    <button type="button" 
+                           class="nav-link w-100 text-start mb-2 d-flex align-items-center {% if forloop.first %}active{% endif %}"
+                           data-slug="{{ page.title|slugify }}"
+                           data-language="{{ language|lower }}"
+                           onclick="loadContent(this)">
+                        <i class="fas fa-book-open me-2"></i>
+                        {{page.title}}
+                    </button>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Henüz içerik eklenmemiş
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- İçerik Alanı -->
+        <div id="contentDetail" class="flex-grow-1 p-4 bg-white rounded-3">
+            {% if pages %}
+                {% with first_page=pages|first %}
+                <div class="content-detail">
+                    <h2><i class="fas fa-graduation-cap me-2"></i>{{ first_page.title }}</h2>
+                    <div class="mt-4">
+                        {{ first_page.content|safe }}
+                    </div>
+                    <div class="mt-4 text-end">
+                        <small class="text-muted">
+                            <i class="fas fa-clock me-1"></i>
+                            Son güncelleme: {{ first_page.updated_at|date:"d.m.Y H:i" }}
+                        </small>
+                    </div>
+                </div>
+                {% endwith %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function loadContent(button) {
+    const slug = button.getAttribute('data-slug');
+    const language = button.getAttribute('data-language');
+    
+    if (!slug || !language) {
+        console.error('Eksik veri:', { slug, language });
+        return;
+    }
+
+    const url = `/courses/${language}/${slug}/`;
+    console.log('İstek URL:', url); // Debug için
+
+    // Active class'ı değiştir
+    document.querySelectorAll('.nav-link').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    button.classList.add('active');
+
+    // Loading göster
+    const contentDiv = document.getElementById('contentDetail');
+    contentDiv.innerHTML = `
+        <div class="text-center p-5">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-2">İçerik yükleniyor...</p>
+        </div>
+    `;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'text/html',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        console.log('Sunucu yanıtı:', response.status); // Debug için
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.text();
+    })
+    .then(html => {
+        contentDiv.innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Yükleme hatası:', error);
+        contentDiv.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> 
+                Hata: ${error.message}
+                <br>
+                <small>URL: ${url}</small>
+            </div>
+        `;
+    });
+}
+
+// Sayfa yüklendiğinde ilk içeriği göster
+document.addEventListener('DOMContentLoaded', () => {
+    const firstButton = document.querySelector('.nav-link');
+    if (firstButton) {
+        loadContent(firstButton);
+    }
+});
+</script>
+{% endblock %}

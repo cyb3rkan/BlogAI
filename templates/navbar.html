@@ -1,0 +1,142 @@
+<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; color: #333; text-align: center; padding: 30px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); margin: 20px; max-width: 900px; margin-left: auto; margin-right: auto;">
+
+    <h1 style="color: #2c3e50; font-size: 2.8em; margin-bottom: 25px;">C# Temel Sözdizimi</h1>
+
+    <div style="margin-bottom: 40px;">
+        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Değişkenler</h2>
+        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Değişkenler, programlama dillerinde veri saklamak için kullanılan temel yapı taşlarıdır. Her değişkenin bir adı ve bir türü vardır. C#'ta değişkenler tanımlanırken türü belirtmek zorunludur.</p>
+        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
+            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
+<code style="display: block;">
+// Tam sayı (integer)
+int sayi = 10;
+
+// Ondalıklı sayı (double)
+double pi = 3.14;
+
+// Metin (string)
+string isim = "Ahmet";
+
+// Karakter (char)
+char ilkHarf = 'A';
+
+// Mantıksal değer (boolean)
+bool dogruMu = true;
+</code>
+            </pre>
+        </div>
+        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Değişken türü, bellekte ayrılan alanı ve işlem hızını etkiler. Doğru türü seçmek önemlidir.</p>
+        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Veri saklama, matematiksel işlemler, kullanıcı girdilerini alma, program akışını kontrol etme.</p>
+    </div>
+
+    <div style="margin-bottom: 40px;">
+        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Operatörler</h2>
+        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Operatörler, değişkenler ve değerler üzerinde işlem yapmak için kullanılan sembollerdir. Aritmetik, karşılaştırma, mantıksal ve atama operatörleri gibi farklı türleri vardır.</p>
+        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
+            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
+<code style="display: block;">
+// Aritmetik operatörler
+int toplam = 5 + 3; // 8
+int fark = 10 - 4;  // 6
+int carpim = 6 * 2; // 12
+int bolum = 15 / 3; // 5
+int kalan = 16 % 5; // 1
+
+// Karşılaştırma operatörleri
+bool esitMi = (5 == 5);   // true
+bool buyukMu = (10 > 5);  // true
+bool kucukEsitMi = (3 <= 3); // true
+
+// Mantıksal operatörler
+bool ve = (true && false);   // false
+bool veya = (true || false);  // true
+bool degil = !true;         // false
+</code>
+            </pre>
+        </div>
+        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Operatörlerin performansı genellikle hızlıdır, ancak karmaşık işlemler daha fazla zaman alabilir.</p>
+        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Hesaplama, karar verme, koşulları kontrol etme.</p>
+    </div>
+
+    <div style="margin-bottom: 40px;">
+        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Döngüler</h2>
+        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Döngüler, bir kod bloğunu belirli bir koşul sağlanana kadar tekrar tekrar çalıştırmak için kullanılır. C#'ta `for`, `while` ve `do-while` döngüleri bulunur.</p>
+        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
+            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
+<code style="display: block;">
+// For döngüsü
+for (int i = 0; i < 5; i++) {
+    Console.WriteLine(i); // 0, 1, 2, 3, 4
+}
+
+// While döngüsü
+int sayac = 0;
+while (sayac < 5) {
+    Console.WriteLine(sayac); // 0, 1, 2, 3, 4
+    sayac++;
+}
+
+// Do-While döngüsü
+int j = 0;
+do {
+    Console.WriteLine(j); // 0, 1, 2, 3, 4
+    j++;
+} while (j < 5);
+</code>
+            </pre>
+        </div>
+        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Döngülerin performansı, tekrar sayısına ve döngü içindeki işlemlerin karmaşıklığına bağlıdır.</p>
+        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Tekrarlı işlemler, veri işleme, koleksiyonları tarama.</p>
+    </div>
+
+    <div style="margin-bottom: 40px;">
+        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Karar Yapıları (if-else)</h2>
+        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Karar yapıları, bir koşulun doğru veya yanlış olmasına göre farklı kod bloklarını çalıştırmak için kullanılır. C#'ta `if`, `else if` ve `else` ifadeleri bulunur.</p>
+        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
+            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
+<code style="display: block;">
+int x = 10;
+
+if (x > 5) {
+    Console.WriteLine("x 5'ten büyüktür.");
+} else if (x < 5) {
+    Console.WriteLine("x 5'ten küçüktür.");
+} else {
+    Console.WriteLine("x 5'e eşittir.");
+}
+</code>
+            </pre>
+        </div>
+        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Karar yapılarının performansı genellikle hızlıdır. Ancak, çok sayıda `else if` bloğu performansı etkileyebilir.</p>
+        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Koşulları kontrol etme, program akışını yönlendirme, farklı senaryolara göre farklı işlemler yapma.</p>
+    </div>
+
+    <div style="margin-bottom: 40px;">
+        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Diziler (Arrays)</h2>
+        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Diziler, aynı türden birden fazla veriyi ardışık olarak saklamak için kullanılan veri yapılarıdır. Dizinin boyutu tanımlanırken belirtilir ve daha sonra değiştirilemez.</p>
+        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
+            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
+<code style="display: block;">
+// Integer dizisi tanımlama
+int[] sayilar = new int[5]; // 5 elemanlı bir dizi
+
+// Değer atama
+sayilar[0] = 10;
+sayilar[1] = 20;
+sayilar[2] = 30;
+sayilar[3] = 40;
+sayilar[4] = 50;
+
+// Dizi elemanlarına erişim
+Console.WriteLine(sayilar[2]); // 30
+
+// Dizi tanımlama ve değer atama (kısa yol)
+int[] notlar = { 85, 90, 78, 92, 88 };
+</code>
+            </pre>
+        </div>
+        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Dizi elemanlarına erişim hızlıdır (O(1)), ancak dizi boyutu sabittir.</p>
+        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Sabit boyutlu veri kümelerini saklama, sıralama algoritmaları, matematiksel işlemler.</p>
+    </div>
+
+</div>

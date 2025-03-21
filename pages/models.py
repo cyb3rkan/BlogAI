@@ -6,7 +6,7 @@ class Page(models.Model):
     content = models.TextField()
     image = models.CharField(max_length=30)
     last_update = models.DateTimeField(auto_now=True)
-
+    category = models.CharField(max_length=30,default='')
     
     def __str__(self):
         return self.title

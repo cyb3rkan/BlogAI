@@ -2,67 +2,112 @@
 {% load static %}
 
 {% block content %}
-<div class="row row-cols-md-12 row-cols-sm-12">
-    <div id="carouselExampleDark" class="carousel slide my-3" data-bs-ride="carousel" data-bs-interval="3000">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="3000">
-                <img src="{% static 'img/img-1.jpg' %}" class="d-block w-50 mx-auto" alt="Slide 1">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First Slide</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-                <img src="{% static 'img/img-2.jpg' %}" class="d-block w-50 mx-auto" alt="Slide 2">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second Slide</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="3000">
-                <img src="{% static 'img/img-3.jpg' %}" class="d-block w-50 mx-auto" alt="Slide 3">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third Slide</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next carousel-dark" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-6 g-4">
-        {% if pages %}
-            {% for page in pages %}
-                {% if forloop.counter <= 20 %} {# 6'dan fazla card göstermemek için forloop.counter kullandık #}
-                <div class="col mb-2">
-                    <a href="{% url 'course' page.id%}" class="text-decoration-none">
-                        <div class="card h-100">
-                            <img src="{% static page.get_image_path %}" class="card-img-top" alt="Card Image">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{ page }}</h5>
+<div class="container-fluid py-5">
+    <!-- Featured Content Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="section-title mb-4">Son Eklenen İçerikler</h2>
+            <div class="row">
+                {% for content in latest_contents %}
+                <div class="col-md-4 mb-4">
+                    <div class="featured-card">
+                        <div class="featured-image">
+                            <img src="{% static content.image_url %}" alt="{{ content.title }}">
+                            <div class="category-badge">{{ content.category|title }}</div>
+                        </div>
+                        <div class="featured-content">
+                            <h3>{{ content.title }}</h3>
+                            <p>{{ content.content|striptags|truncatewords:20 }}</p>
+                            <div class="featured-footer">
+                                <a href="{% url 'language_page' content.category %}" class="btn btn-primary btn-sm">
+                                    Devamını Oku <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>
+                                    {{ content.last_update|date:"d.m.Y" }}
+                                </small>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <div class="alert alert-warning">Does not exist</div>
-        {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Kurs Kartları -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="section-title mb-4">Tüm Dersler</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-2">
+                    <div class="card">
+                        <a href="{% url 'language_page' 'python' %}" class="text-dark text-decoration-none text-center">
+                            <img src="{% static 'img/python.jpeg' %}" class="card-img-top" alt="Python Image"
+                                style="object-fit: cover; object-position: center; height: 180px;">
+                            <div class="card-body">
+                                <p class="card-text">Python Programlama</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <a href="{% url 'language_page' 'java' %}" class="text-dark text-decoration-none text-center">
+                            <img src="{% static 'img/java.jpeg' %}" class="card-img-top" alt="Java Image"
+                                style="object-fit: cover; object-position: center; height: 180px;">
+                            <div class="card-body">
+                                <p class="card-text">Java Programlama</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <a href="{% url 'language_page' 'csharp' %}" class="text-dark text-decoration-none text-center">
+                            <img src="{% static 'img/csharp.jpeg' %}" class="card-img-top" alt="C# Image"
+                                style="object-fit: cover; object-position: center; height: 180px;">
+                            <div class="card-body">
+                                <p class="card-text">C# Programlama</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <a href="{% url 'language_page' 'javascript' %}" class="text-dark text-decoration-none text-center" >
+                            <img src="{% static 'img/javascript.jpeg' %}" class="card-img-top" alt="JavaScript Image"
+                                style="object-fit: cover; object-position: center; height: 180px;">
+                            <div class="card-body">
+                                <p class="card-text">JavaScript Programlama</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <a href="{% url 'language_page' 'nlp' %}" class="text-dark text-decoration-none text-center">
+                            <img src="{% static 'img/nlp.jpeg' %}" class="card-img-top" alt="NLP Image"
+                                style="object-fit: cover; object-position: center; height: 180px;">
+                            <div class="card-body">
+                                <p class="card-text">Doğal Dil İşleme</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <a href="{% url 'language_page' 'machinelearning' %}" class="text-dark text-decoration-none text-center">
+                            <img src="{% static 'img/makine.jpeg' %}" class="card-img-top" alt="MachineLearning Image"
+                                style="object-fit: cover; object-position: center; height: 180px;">
+                            <div class="card-body">
+                                <p class="card-text">Makine Öğrenmesi</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
