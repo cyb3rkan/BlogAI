@@ -38,6 +38,21 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+.admin-buttons {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.nav-link:hover + .admin-buttons,
+.admin-buttons:hover {
+    opacity: 1;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
 /* İçerik Alanı */
 .content-detail {
     animation: fadeIn 0.3s ease-in;

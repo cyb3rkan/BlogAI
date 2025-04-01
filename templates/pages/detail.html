@@ -1,28 +1,12 @@
-<div class="content-detail fade-in">
-    {% if page %}
-        <div class="d-flex align-items-center mb-4">
-            <i class="fas fa-graduation-cap fs-3 me-3 text-primary"></i>
-            <h2 class="mb-0">{{ page.title }}</h2>
-        </div>
-        <div class="mt-4 content-body">
-            {{ page.content|safe }}
-        </div>
-        <div class="mt-4 d-flex justify-content-between align-items-center">
-            <div class="text-muted">
-                <i class="fas fa-bookmark me-1"></i>
-                <small>{{ page.category|title }}</small>
-            </div>
-            {% if page.updated_at %}
-            <div class="text-muted">
-                <i class="fas fa-clock me-1"></i>
-                <small>Son güncelleme: {{ page.updated_at|date:"d.m.Y H:i" }}</small>
-            </div>
-            {% endif %}
-        </div>
-    {% else %}
-        <div class="alert alert-warning">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            İçerik bulunamadı
-        </div>
-    {% endif %}
+<div class="content-detail">
+    <h2><i class="fas fa-graduation-cap me-2"></i>{{ page.title }}</h2>
+    <div class="mt-4">
+        {{ page.content|safe }}
+    </div>
+    <div class="mt-4 text-end">
+        <small class="text-muted">
+            <i class="fas fa-clock me-1"></i>
+            Son güncelleme: {{ page.last_update|date:"d.m.Y H:i" }}
+        </small>
+    </div>
 </div>

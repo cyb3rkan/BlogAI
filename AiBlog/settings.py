@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "pages.apps.PagesConfig",
+    "user",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,11 +47,16 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware", # Bu satırı ekleyin
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# CSRF ayarları
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
+CSRF_COOKIE_SECURE = False  # Geliştirme ortamında False olmalı
+CSRF_USE_SESSIONS = False
 
 ROOT_URLCONF = "AiBlog.urls"
 
@@ -127,7 +133,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok-free.app','https://5f05-37-155-163-221.ngrok-free.app/']
 
 # SEO Settings
 SITE_ID = 1
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS= {
+    messages.ERROR:"danger",
+}

@@ -17,11 +17,12 @@ class DesignWebsite():
     def __init__(self):
         self.options = Options()
         self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("--headless")
         self.client = genai.Client(api_key=YOUR_API_KEY)  
 
     def create_prompts(self, subject):
-        contents = f"Bana {subject} konusunu alt başlıklara ayır. Basit ve yalın başlıklar olsun emoji özel karakter kullanma . Herhangi bir açıklama istemiyorum. Yalnızca alt alta başlıklar olsun. Başka hiçibir şey olmasın. Boş satır olmasın. Boş satır sorun yaratıyor. Bir kurs programı edasıyla yaz. giriş fln gibi kısımlar olmasın daha somut ve net başlıklar olsun. {subject} konusundan şaşma. başlıklar sadece teknik yazılımsal olsun ve konuyu ince detayına kadar kategorisel olarak tanımlasın"
-
+        contents = f"Bana {subject} konusunu alt başlıklara ayır. Basit ve yalın başlıklar olsun emoji özel karakter kullanma . Herhangi bir açıklama istemiyorum. Yalnızca alt alta başlıklar olsun. Başka hiçibir şey olmasın. Boş satır olmasın. Boş satır sorun yaratıyor. Bir kurs programı edasıyla yaz. giriş fln gibi kısımlar olmasın daha somut ve net başlıklar olsun. {subject} konusundan şaşma. başlıklar sadece teknik yazılımsal olsun ve konuyu ince detayına kadar kategorisel olarak tanımlasın. Çok uç başlıklar yazma sadece konuyu öğrenmeye yönelik konu başlıkları olsun tıpkı bir kurs içeriğinin başlıkları gibi"
+        
         response = self.client.models.generate_content(
             model="gemini-2.0-flash",
             contents=contents,
@@ -43,7 +44,7 @@ class DesignWebsite():
         * Tasarımı yaparken iyi düşün.
         * Aşağıdaki metni kullanarak bir öğrenim akışı oluştur:
 
-        * Her veri yapısı için aşağıdaki bilgileri sun:
+        * Her konu başlığı için gerektiği zaman aşağıdaki bilgileri sun:
             * Başlık
             * Açıklama
             * Kod örneği

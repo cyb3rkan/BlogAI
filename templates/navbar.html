@@ -1,142 +1,94 @@
-<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; color: #333; text-align: center; padding: 30px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); margin: 20px; max-width: 900px; margin-left: auto; margin-right: auto;">
-
-    <h1 style="color: #2c3e50; font-size: 2.8em; margin-bottom: 25px;">C# Temel Sözdizimi</h1>
-
-    <div style="margin-bottom: 40px;">
-        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Değişkenler</h2>
-        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Değişkenler, programlama dillerinde veri saklamak için kullanılan temel yapı taşlarıdır. Her değişkenin bir adı ve bir türü vardır. C#'ta değişkenler tanımlanırken türü belirtmek zorunludur.</p>
-        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
-            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
-<code style="display: block;">
-// Tam sayı (integer)
-int sayi = 10;
-
-// Ondalıklı sayı (double)
-double pi = 3.14;
-
-// Metin (string)
-string isim = "Ahmet";
-
-// Karakter (char)
-char ilkHarf = 'A';
-
-// Mantıksal değer (boolean)
-bool dogruMu = true;
-</code>
-            </pre>
+<nav style="background-color: #2c3e50; box-shadow: 0 2px 10px rgba(0,0,0,0.2); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 1.8rem; font-weight: bold;">
+            <a href="{% url 'home' %}" style="text-decoration: none; color: #ecf0f1; font-family: 'Poppins', sans-serif;">
+                <span style="color: #3498db;">Ai</span>Blog
+            </a>
         </div>
-        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Değişken türü, bellekte ayrılan alanı ve işlem hızını etkiler. Doğru türü seçmek önemlidir.</p>
-        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Veri saklama, matematiksel işlemler, kullanıcı girdilerini alma, program akışını kontrol etme.</p>
-    </div>
-
-    <div style="margin-bottom: 40px;">
-        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Operatörler</h2>
-        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Operatörler, değişkenler ve değerler üzerinde işlem yapmak için kullanılan sembollerdir. Aritmetik, karşılaştırma, mantıksal ve atama operatörleri gibi farklı türleri vardır.</p>
-        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
-            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
-<code style="display: block;">
-// Aritmetik operatörler
-int toplam = 5 + 3; // 8
-int fark = 10 - 4;  // 6
-int carpim = 6 * 2; // 12
-int bolum = 15 / 3; // 5
-int kalan = 16 % 5; // 1
-
-// Karşılaştırma operatörleri
-bool esitMi = (5 == 5);   // true
-bool buyukMu = (10 > 5);  // true
-bool kucukEsitMi = (3 <= 3); // true
-
-// Mantıksal operatörler
-bool ve = (true && false);   // false
-bool veya = (true || false);  // true
-bool degil = !true;         // false
-</code>
-            </pre>
+        
+        <div class="menu-toggle" style="display: none; cursor: pointer;">
+            <div style="width: 30px; height: 3px; background-color: #ecf0f1; margin: 6px 0; transition: 0.3s;"></div>
+            <div style="width: 30px; height: 3px; background-color: #ecf0f1; margin: 6px 0; transition: 0.3s;"></div>
+            <div style="width: 30px; height: 3px; background-color: #ecf0f1; margin: 6px 0; transition: 0.3s;"></div>
         </div>
-        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Operatörlerin performansı genellikle hızlıdır, ancak karmaşık işlemler daha fazla zaman alabilir.</p>
-        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Hesaplama, karar verme, koşulları kontrol etme.</p>
-    </div>
-
-    <div style="margin-bottom: 40px;">
-        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Döngüler</h2>
-        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Döngüler, bir kod bloğunu belirli bir koşul sağlanana kadar tekrar tekrar çalıştırmak için kullanılır. C#'ta `for`, `while` ve `do-while` döngüleri bulunur.</p>
-        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
-            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
-<code style="display: block;">
-// For döngüsü
-for (int i = 0; i < 5; i++) {
-    Console.WriteLine(i); // 0, 1, 2, 3, 4
-}
-
-// While döngüsü
-int sayac = 0;
-while (sayac < 5) {
-    Console.WriteLine(sayac); // 0, 1, 2, 3, 4
-    sayac++;
-}
-
-// Do-While döngüsü
-int j = 0;
-do {
-    Console.WriteLine(j); // 0, 1, 2, 3, 4
-    j++;
-} while (j < 5);
-</code>
-            </pre>
+        
+        <div class="nav-links" style="display: flex; gap: 2.5rem;">
+            <a href="{% url 'home' %}" class="nav-link" style="text-decoration: none; color: #ecf0f1; font-weight: 500; font-size: 1.1rem; position: relative; padding: 5px 0;">Ana Sayfa</a>
+            <a href="{% url 'about' %}" class="nav-link" style="text-decoration: none; color: #ecf0f1; font-weight: 500; font-size: 1.1rem; position: relative; padding: 5px 0;">Hakkımızda</a>
+            <a href="{% url 'contact' %}" class="nav-link" style="text-decoration: none; color: #ecf0f1; font-weight: 500; font-size: 1.1rem; position: relative; padding: 5px 0;">İletişim</a>
+            <a href="{% url 'blog' %}" class="nav-link" style="text-decoration: none; color: #ecf0f1; font-weight: 500; font-size: 1.1rem; position: relative; padding: 5px 0;">Blog</a>
         </div>
-        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Döngülerin performansı, tekrar sayısına ve döngü içindeki işlemlerin karmaşıklığına bağlıdır.</p>
-        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Tekrarlı işlemler, veri işleme, koleksiyonları tarama.</p>
     </div>
+</nav>
 
-    <div style="margin-bottom: 40px;">
-        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Karar Yapıları (if-else)</h2>
-        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Karar yapıları, bir koşulun doğru veya yanlış olmasına göre farklı kod bloklarını çalıştırmak için kullanılır. C#'ta `if`, `else if` ve `else` ifadeleri bulunur.</p>
-        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
-            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
-<code style="display: block;">
-int x = 10;
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-if (x > 5) {
-    Console.WriteLine("x 5'ten büyüktür.");
-} else if (x < 5) {
-    Console.WriteLine("x 5'ten küçüktür.");
-} else {
-    Console.WriteLine("x 5'e eşittir.");
-}
-</code>
-            </pre>
-        </div>
-        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Karar yapılarının performansı genellikle hızlıdır. Ancak, çok sayıda `else if` bloğu performansı etkileyebilir.</p>
-        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Koşulları kontrol etme, program akışını yönlendirme, farklı senaryolara göre farklı işlemler yapma.</p>
-    </div>
+    nav {
+        font-family: 'Poppins', sans-serif;
+    }
 
-    <div style="margin-bottom: 40px;">
-        <h2 style="color: #3498db; font-size: 2em; margin-bottom: 15px;">Diziler (Arrays)</h2>
-        <p style="font-size: 1.2em; line-height: 1.6; color: #555; margin-bottom: 20px;">Diziler, aynı türden birden fazla veriyi ardışık olarak saklamak için kullanılan veri yapılarıdır. Dizinin boyutu tanımlanırken belirtilir ve daha sonra değiştirilemez.</p>
-        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 15px;">
-            <pre style="font-size: 1em; color: #2c3e50; white-space: pre-wrap;">
-<code style="display: block;">
-// Integer dizisi tanımlama
-int[] sayilar = new int[5]; // 5 elemanlı bir dizi
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #3498db;
+        transition: width 0.3s ease-in-out;
+    }
 
-// Değer atama
-sayilar[0] = 10;
-sayilar[1] = 20;
-sayilar[2] = 30;
-sayilar[3] = 40;
-sayilar[4] = 50;
+    .nav-link:hover::after {
+        width: 100%;
+    }
 
-// Dizi elemanlarına erişim
-Console.WriteLine(sayilar[2]); // 30
+    .nav-link:hover {
+        color: #3498db !important;
+    }
 
-// Dizi tanımlama ve değer atama (kısa yol)
-int[] notlar = { 85, 90, 78, 92, 88 };
-</code>
-            </pre>
-        </div>
-        <p style="font-size: 1em; color: #777; margin-bottom: 10px;"><b>Performans:</b> Dizi elemanlarına erişim hızlıdır (O(1)), ancak dizi boyutu sabittir.</p>
-        <p style="font-size: 1em; color: #777;"><b>Kullanım Alanları:</b> Sabit boyutlu veri kümelerini saklama, sıralama algoritmaları, matematiksel işlemler.</p>
-    </div>
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block !important;
+        }
+        
+        .nav-links {
+            display: none !important;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #2c3e50;
+            padding: 1rem;
+            flex-direction: column;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .nav-links.active {
+            display: flex !important;
+        }
 
-</div>
+        .menu-toggle.active div:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .menu-toggle.active div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active div:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    }
+</style>
+
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+    });
+</script>
