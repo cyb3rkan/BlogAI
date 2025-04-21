@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok-free.app','https://5f05-37-155-163-221.ngrok-free.app/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok-free.app','https://5f05-37-155-163-221.ngrok-free.app/','ai-destekli-kurs-platformu-python-django.onrender.com']
 
 # SEO Settings
 SITE_ID = 1
