@@ -11,10 +11,10 @@ from django.contrib import messages
 def get_seo_context(page_title, description, keywords):
     return {
         'page_title': f"{page_title} | MEO-BlogAI",
-        'meta_description': description[:160],  # Max 160 karakter
+        'meta_description': description[:160],
         'meta_keywords': keywords,
         'og_title': page_title,
-        'og_description': description[:200],  # Open Graph için biraz daha uzun
+        'og_description': description[:200],  #
     }
 
 def tr_slugify(text):
@@ -29,12 +29,10 @@ def tr_slugify(text):
 # Ana sayfa
 def index(request):
     try:
-        # Son güncellenen 3 içeriği al ve kategori kontrolü yap
         latest_contents = Page.objects.filter(
             category__in=['python', 'javascript', 'java', 'csharp', 'nlp', 'machinelearning']
         ).order_by('-last_update')[:3]
 
-        # Statik görsel eşleştirmeleri
         content_images = {
             'python': 'img/python.jpeg',
             'javascript': 'img/javascript.jpeg',
@@ -44,9 +42,8 @@ def index(request):
             'machinelearning': 'img/makine.jpeg'
         }
 
-        # Her içeriğe görsel ata
         for content in latest_contents:
-            if content.category:  # Kategori boş değilse
+            if content.category: 
                 content.image_url = content_images.get(content.category.lower(), 'img/default-slide.jpg')
             else:
                 content.image_url = 'img/default-slide.jpg'
@@ -75,15 +72,13 @@ def show_language_page(request, language):
     if not request.user.is_authenticated:
         return redirect('login')
         
-    # Sayfaları ID'ye göre sırala (en düşük ID'li sayfa ilk olacak)
     pages = Page.objects.filter(category=language.lower()).order_by('id')
     
-    # Her sayfa için slug oluştur
     for page in pages:
         page.slug = tr_slugify(page.title)
     
     if pages.exists():
-        first_page = pages.first()  # En düşük ID'li sayfayı al
+        first_page = pages.first()
     else:
         first_page = None
 
@@ -95,7 +90,7 @@ def show_language_page(request, language):
 
     context = {
         "pages": pages,
-        "first_page": first_page,  # İlk sayfayı context'e ekle
+        "first_page": first_page,
         "language": language.title(),
         **seo_context
     }
@@ -155,7 +150,6 @@ def get_language_detail(request, language, slug):
             '</div>'
         )
 
-# Her dil için view fonksiyonları
 def python(request):
     return show_language_page(request, "python")
 

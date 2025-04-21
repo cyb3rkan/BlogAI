@@ -27,7 +27,7 @@
                                         <span class="badge bg-secondary">
                                             {{ result.category|title }}
                                         </span>
-                                        <a href="{% url 'language_page' result.category %}#{{ result.title|slugify }}" 
+                                        <a href="{% url 'language_detail' result.category result.title|slugify %}" 
                                            class="btn btn-sm btn-outline-primary">
                                             Devamını Oku
                                         </a>
