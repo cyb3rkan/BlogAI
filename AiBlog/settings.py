@@ -54,9 +54,31 @@ MIDDLEWARE = [
 ]
 
 # CSRF ayarları
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
-CSRF_COOKIE_SECURE = False  # Geliştirme ortamında False olmalı
-CSRF_USE_SESSIONS = False
+CSRF_TRUSTED_ORIGINS = [
+    'https://ai-destekli-kurs-platformu-python-django.onrender.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+# CORS ayarları
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'https://ai-destekli-kurs-platformu-python-django.onrender.com',
+]
+
+# Güvenlik ayarları
+CSRF_COOKIE_SECURE = True  # HTTPS için
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = False  # Development'da False, production'da True olmalı
+
+# Production için
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 
 ROOT_URLCONF = "AiBlog.urls"
 
