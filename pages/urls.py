@@ -1,5 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework.routers import DefaultRouter
+from .views import PageViewset
+
+router = DefaultRouter()
+router.register(r'pages', PageViewset)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -11,4 +16,5 @@ urlpatterns = [
     path('page/edit/<int:page_id>/', views.edit_page, name='edit_page'),
     path('page/save/<int:page_id>/', views.save_page, name='save_page'),
     path('api/pages/<int:page_id>/delete/', views.delete_page, name='delete_page'),
+    path('', include(router.urls)),
 ]

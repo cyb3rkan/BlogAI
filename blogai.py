@@ -8,9 +8,7 @@ from google import genai
 from dotenv import load_dotenv
 import os
 
-# .env dosyasını yükle
 load_dotenv()
-# Ortam değişkenlerini oku
 YOUR_API_KEY = os.getenv("YOUR_API_KEY")
 
 class DesignWebsite():
@@ -32,7 +30,7 @@ class DesignWebsite():
         return self.prompt.strip().splitlines()
 
     def create_content(self, prompt, subject):
-        contents = subject + " " + prompt + """ 
+        contents = subject + " " + prompt + f""" 
         Sadece <body> etiketinin içeriğini HTML ve satır içi CSS kullanarak oluştur. Sayfa iskeleti oluşturma. Modern ve estetik bir tasarım elde et.Yapabileceğin en öğretici ve bilgilendirici tasarımı yapmaya çalış. Aşağıdaki gereksinimleri karşıla:
 
         * Metinler ortalanmış olsun, ancak tamamen kenarlara yapışmasın; belirli bir boşluk bırak.
@@ -61,7 +59,12 @@ class DesignWebsite():
             ... (diğer içerikler) ...
 
         </div>"
-        hiçbir açıklama ve benzeri metin istemiyorum açıklayıcı ve detaylı bir içerik olsun tasarımdan şaşma belirtilen gereksinimleri karşıla. Kod örnekleri bölümüne ekstra dikkat et. Satırların alt alta geldiğine dikkat et ve kod örneklerini düzgün bir şekilde yerleştir. kod kısmını hafif bir şekilde renklendirebilirsin. Kendine göre ** gibi tasarımsal elementler kullanma sadece html bootstrap olsun ve inner css de kullanabilirsin.
+        hiçbir açıklama ve benzeri metin istemiyorum açıklayıcı ve detaylı bir içerik olsun tasarımdan şaşma belirtilen gereksinimleri karşıla. Kod örnekleri bölümüne ekstra dikkat et. Satırların alt alta geldiğine dikkat et ve kod örneklerini düzgün bir şekilde yerleştir. kod kısmını hafif bir şekilde renklendirebilirsin. Kendine göre ** gibi tasarımsal elementler kullanma sadece html bootstrap olsun ve inner css de kullanabilirsin. Kod örnekleri için code etiketlerinin classı 
+        {subject} = python ise language-python
+        {subject} = csharp ise language-csharp
+        {subject} = java ise language-java
+        {subject} = javascript ise language-javascript
+        diğerleride hangi dilse prism.js kütüphanesine uygun class lar alsın.
         """
 
         response = self.client.models.generate_content(
@@ -74,7 +77,7 @@ class DesignWebsite():
         return self.response  
 
     def send_to_website(self,header,subject):
-        service = Service(executable_path="/Users/shzany/Desktop/Python Eğitim/DjangoProject-1/AiBlog/chromedriver")
+        service = Service(executable_path="/Users/shzany/AI-Destekli-Kurs-Platformu-Python-Django/chromedriver")
         driver = webdriver.Chrome(service=service, options=self.options)
 
         try:

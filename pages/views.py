@@ -96,17 +96,6 @@ def show_language_page(request, language):
     }
     return render(request, 'pages/generic_language.html', context)
 
-def mark_as_complete(request, page_id):
-    page = get_object_or_404(Page, id=page_id)
-    progress, created = UserProgress.objects.get_or_create(
-        user=request.user,
-        page=page
-    )
-    progress.completed = True
-    progress.save()
-    messages.success(request, "İlerlemeniz kaydedildi!")
-    return redirect('language_detail', language=page.category, slug=page.slug)
-
 def get_language_detail(request, language, slug):
     try:
         page = None
@@ -174,27 +163,7 @@ def java(request):
 def java_detail(request, slug):
     return get_language_detail(request, "java", slug)
 
-# NLP sayfası
-def nlp(request, title=None):
-    if title:
-        page = get_object_or_404(Page, title=slugify(title), category="nlp")
-    else:
-        page = Page.objects.filter(category="nlp")
-    context = {
-        "pages": page
-    }
-    return render(request, 'pages/nlp.html', context)
 
-# Makine Öğrenmesi sayfası
-def machinelearning(request, title=None):
-    if title:
-        page = get_object_or_404(Page, title=slugify(title), category="machinelearning")
-    else:
-        page = Page.objects.filter(category="machinelearning")
-    context = {
-        "pages": page
-    }
-    return render(request, 'pages/machinelearning.html', context)
 
 def search(request):
     query = request.GET.get('q', '')
@@ -267,3 +236,12 @@ def edit_page(request, page_id):
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+# myapp/views.py
+
+from rest_framework import viewsets
+from .models import Page
+from .serializer import PageSerializer
+
+class PageViewset(viewsets.ModelViewSet):
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer

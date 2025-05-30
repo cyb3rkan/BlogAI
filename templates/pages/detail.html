@@ -1,84 +1,37 @@
-<div class="content-detail">
-    <h2><i class="fas fa-graduation-cap me-2"></i>{{ page.title }}</h2>
-    <div class="mt-4" id="content">
-        {{ page.content|safe }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/538a3147e0.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css"
+        rel="stylesheet">
+</head>
+<body>
+    <div class="content-detail">
+        <h2><i class="fas fa-graduation-cap me-2"></i>{{ page.title }}</h2>
+        <div class="mt-4" id="content">
+            {{ page.content|safe }}
+        </div>
+        <div class="mt-4 text-end">
+            <small class="text-muted">
+                <i class="fas fa-clock me-1"></i>
+                Son güncelleme: {{ page.last_update|date:"d.m.Y H:i" }}
+            </small>
+        </div>
     </div>
-    <div class="mt-4 text-end">
-        <small class="text-muted">
-            <i class="fas fa-clock me-1"></i>
-            Son güncelleme: {{ page.last_update|date:"d.m.Y H:i" }}
-        </small>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Prism.js Scripts -->
+     
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</body>
+</html>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const codeBlocks = document.querySelectorAll('#content pre code');
-    
-    codeBlocks.forEach((block, index) => {
-        if (!block.classList.length) {
-            block.classList.add('language-plaintext');
-        }
-        
-        block.parentNode.classList.add('line-numbers');
-        
-        Prism.highlightElement(block);
-    });
-});
-</script>
 
-<style>
-pre[class*="language-"] {
-    background: #f8f9fa !important;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
-    margin: 1.5em 0;
-    padding: 1em;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-code[class*="language-"] {
-    color: #212529 !important;
-    text-shadow: none !important;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.token.comment { color: #6a737d !important; }
-.token.keyword { color: #d73a49 !important; }
-.token.string { color: #032f62 !important; }
-.token.function { color: #6f42c1 !important; }
-.token.number { color: #005cc5 !important; }
-.token.class-name { color: #6f42c1 !important; }
-.token.constant { color: #005cc5 !important; }
-
-.line-numbers .line-numbers-rows {
-    border-right: 1px solid #e1e4e8;
-    padding-right: 1em;
-}
-
-/* Kopyalama butonu */
-div.code-toolbar > .toolbar {
-    opacity: 0.3;
-    transition: opacity 0.3s;
-}
-
-div.code-toolbar:hover > .toolbar {
-    opacity: 1;
-}
-
-div.code-toolbar > .toolbar button {
-    padding: 0.4em 0.8em;
-    background: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    font-size: 0.8em;
-    color: #495057;
-}
-
-div.code-toolbar > .toolbar button:hover {
-    background: #e9ecef;
-    color: #212529;
-}
-</style>
