@@ -1,12 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
-from .models import Page
+from django.db.models import Q, Avg
+from .models import Page, Rate
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.decorators import user_passes_test
 from user.models import UserProgress
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.template.loader import render_to_string
+
+from rest_framework import viewsets, generics, permissions
+from .serializers import RateSerializer, PageSerializer
+from .models import Rate
+from rest_framework.exceptions import ValidationError
 
 def get_seo_context(page_title, description, keywords):
     return {
@@ -74,70 +80,50 @@ def show_language_page(request, language):
         
     pages = Page.objects.filter(category=language.lower()).order_by('id')
     
+    # Slug eksikse oluştur
     for page in pages:
-        page.slug = tr_slugify(page.title)
+        if not page.slug:
+            page.slug = tr_slugify(page.title)
+            page.save()
     
-    if pages.exists():
-        first_page = pages.first()
-    else:
-        first_page = None
-
-    seo_context = get_seo_context(
-        f"{language.title()} Programlama Dersleri",
-        f"{language.title()} programlama dili eğitimleri, örnekler ve projeler. Adım adım {language} öğrenin.",
-        f"{language}, programlama, {language} dersleri, {language} eğitimi, yazılım"
-    )
+    first_page = pages.first() if pages.exists() else None
 
     context = {
         "pages": pages,
         "first_page": first_page,
         "language": language.title(),
-        **seo_context
     }
-    return render(request, 'pages/generic_language.html', context)
+    return render(request, 'pages/language_page.html', context)
 
 def get_language_detail(request, language, slug):
     try:
-        page = None
-        page_id = request.GET.get('id')
-        
-        if page_id:
-            page = Page.objects.get(id=page_id)
-        else:
-            page = Page.objects.get(
-                category=language.lower(),
-                title__iexact=slug.replace('-', ' ')
-            )
-        
-        if not page:
-            return HttpResponse(
-                '<div class="alert alert-danger">'
-                '<i class="fas fa-exclamation-circle me-2"></i>'
-                'İçerik bulunamadı'
-                '</div>'
-            )
-        
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return render(request, 'pages/detail.html', {
-                "page": page,
-                "is_admin": request.user.is_superuser
-            })
-            
-        return render(request, 'pages/generic_language.html', {
+        page = get_object_or_404(Page, category=language.lower(), slug=slug)
+        context = {
             "page": page,
+            "is_admin": request.user.is_superuser,
             "pages": Page.objects.filter(category=language.lower()),
-            "language": language.title(),
-            "is_admin": request.user.is_superuser
-        })
-        
+            "language": language,
+            "average_rating": page.average_rate(),
+            "rates": page.rates.all()
+        }
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            content = render_to_string('pages/detail.html', context, request=request)
+            return JsonResponse({
+                'status': 'success',
+                'content': content,
+                'title': f"{page.title} - {language} Dersleri"
+            })
+
+        return render(request, 'pages/language_page.html', context)
     except Exception as e:
         print(f"Hata: {e}")
-        return HttpResponse(
-            '<div class="alert alert-danger">'
-            '<i class="fas fa-exclamation-circle me-2"></i>'
-            'Bir hata oluştu'
-            '</div>'
-        )
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=404)
+        raise
 
 def python(request):
     return show_language_page(request, "python")
@@ -219,7 +205,7 @@ def save_page(request, page_id):
         })
     except Exception as e:
         return JsonResponse({
-            'status': 'error', 
+            'status': 'error',
             'message': str(e)
         }, status=500)
 
@@ -236,12 +222,67 @@ def edit_page(request, page_id):
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-# myapp/views.py
-
-from rest_framework import viewsets
-from .models import Page
-from .serializer import PageSerializer
 
 class PageViewset(viewsets.ModelViewSet):
     queryset = Page.objects.all()
     serializer_class = PageSerializer
+
+class RateListCreateView(generics.ListCreateAPIView):
+    serializer_class = RateSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        page_id = self.kwargs.get('page_id')
+        return Rate.objects.filter(page_id=page_id)
+
+    def perform_create(self, serializer):
+        page_id = self.kwargs.get('page_id')
+        user = self.request.user
+        if Rate.objects.filter(page_id=page_id, user=user).exists():
+            raise ValidationError("Bu sayfa için zaten puan verdiniz.")
+        serializer.save(page_id=page_id, user=user)
+
+def add_rate(request, page_id):
+    if request.method == 'POST':
+        page = get_object_or_404(Page, id=page_id)
+        value = request.POST.get('value')
+        comment = request.POST.get('comment', '').strip()
+
+        if not value:
+            messages.error(request, "Lütfen bir puan seçin!")
+            return redirect('language_detail', language=page.category, slug=page.slug)
+
+        try:
+            rate = Rate.objects.update_or_create(
+                page=page,
+                user=request.user,
+                defaults={
+                    'score': int(value),
+                    'comment': comment
+                }
+            )[0]
+            messages.success(request, "Değerlendirmeniz kaydedildi!")
+        except Exception as e:
+            print(f"Rate error: {e}")
+            messages.error(request, "Değerlendirme kaydedilirken bir hata oluştu!")
+            
+        return redirect('language_detail', language=page.category, slug=page.slug)
+    return HttpResponseBadRequest()
+
+def get_page_content(request, language, slug):
+    try:
+        page = get_object_or_404(Page, category=language, slug=slug)
+        context = {
+            'page': page,
+            'average_rating': page.average_rate(),
+            'language': language,
+            'is_admin': request.user.is_superuser,
+            'rates': Rate.objects.filter(page=page)
+        }
+        return JsonResponse({
+            'status': 'success',
+            'content': render_to_string('pages/detail.html', context, request=request),
+            'title': page.title
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=404)

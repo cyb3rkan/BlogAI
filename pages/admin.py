@@ -1,11 +1,10 @@
 from django.contrib import admin
-from .models import Page
+from .models import Page, Rate
 
+@admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ("id","title", "last_update")
-    list_filter = ("last_update",)
-    ordering = ["id"]
-    search_fields = ["title", "content"]
+    list_display = ('title', 'category', 'average_rate')
 
-
-admin.site.register(Page, PageAdmin)
+@admin.register(Rate)
+class RateAdmin(admin.ModelAdmin):
+    list_display = ('page', 'user', 'score')

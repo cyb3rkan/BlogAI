@@ -1,117 +1,27 @@
-{% extends 'layout.html' %}
-{% load static %}
+{% extends 'base.html' %}
+
 {% block content %}
-{% if user.is_authenticated %}
-<div class="container-fluid py-4">
-    <div class="d-flex gap-4">
-        <div class="bg-light rounded-3 p-4" style="width: 280px;">
-            <h4 class="mb-4 text-primary">{{ language }} Dersleri</h4>
-            <div class="nav nav-pills flex-column">
-                {% if pages %}
-                    {% for page in pages %}
-                    <div class="d-flex align-items-center mb-2">
-                        <button type="button" 
-                               class="nav-link w-100 text-start d-flex align-items-center {% if forloop.first %}active{% endif %}"
-                               data-id="{{ page.id }}"
-                               data-slug="{{ page.title|slugify }}"
-                               data-language="{{ language|lower }}"
-                               onclick="loadContent(this)">
-                            <i class="fas fa-book-open me-2"></i>
-                            {{ page.title }}
-                        </button>
-                        {% if user.is_superuser %}
-                        <div class="ms-2 admin-buttons">
-                            <a href="{% url 'edit_page' page.id %}" class="btn btn-sm btn-warning">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <button onclick="deletePage({{ page.id }})" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Henüz içerik eklenmemiş
-                    </div>
-                {% endif %}
-            </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            {% for p in pages %}
+            <a href="{% url 'language_detail' language|lower p.slug %}" 
+               class="list-group-item page-link">
+                {{ p.title }}
+            </a>
+            {% endfor %}
         </div>
-        <div id="contentDetail" class="flex-grow-1 p-4 bg-white rounded-3">
-            {% if first_page %}
-                <div class="content-detail">
-                    <h2><i class="fas fa-graduation-cap me-2"></i>{{ first_page.title }}</h2>
-                    <div class="mt-4">
-                        {{ first_page.content|safe }}
-                    </div>
-                    <div class="mt-4 text-end">
-                        <small class="text-muted">
-                            <i class="fas fa-clock me-1"></i>
-                            Son güncelleme: {{ first_page.last_update|date:"d.m.Y H:i" }}
-                        </small>
-                    </div>
-                </div>
-            {% else %}
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Bu kategoride henüz içerik bulunmamaktadır.
-                </div>
+    </div>
+    <div class="col-md-9">
+        <div id="main-content">
+            {% if page %}
+                {% include 'pages/detail.html' %}
             {% endif %}
         </div>
     </div>
 </div>
-{% else %}
-<div class="container py-5">
-    <div class="alert alert-warning">
-        <h4 class="alert-heading">Giriş Yapmanız Gerekiyor!</h4>
-        <p>Bu içeriği görüntüleyebilmek için lütfen giriş yapın veya kayıt olun.</p>
-        <hr>
-        <div class="mt-3">
-            <a href="{% url 'login' %}" class="btn btn-primary me-2">Giriş Yap</a>
-            <a href="{% url 'register' %}" class="btn btn-success">Kayıt Ol</a>
-        </div>
-    </div>
-</div>
-{% endif %}
 {% endblock %}
 
-{% block scripts %}
-<script>
-function loadContent(button) {
-    const pageId = button.getAttribute('data-id');
-    const language = button.getAttribute('data-language');
-    const slug = button.getAttribute('data-slug');
-    
-    if (!pageId || !language || !slug) {
-        console.error('Eksik veri:', { pageId, language, slug });
-        return;
-    }
-
-    document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-
-    const contentArea = document.getElementById('contentDetail');
-    contentArea.innerHTML = '<div class="text-center"><div class="spinner-border text-primary"></div></div>';
-
-    fetch(`/courses/${language}/${slug}/?id=${pageId}`, {
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
-    .then(response => response.text())
-    .then(html => {
-        contentArea.innerHTML = html;
-    })
-    .catch(error => {
-        contentArea.innerHTML = `
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i>
-                Hata: ${error.message}
-            </div>`;
-        console.error('Yükleme hatası:', error);
-    });
-}
-</script>
+{% block extra_js %}
+<script src="/static/js/content-loader.js"></script>
 {% endblock %}
